@@ -8,16 +8,16 @@
  * Any modifications to or software including (via compiler) GPL-licensed code must also be made
  * available under the GPL along with build & install instructions.
  *
- * @package    WPS\Widgets
+ * @package    WPS\WP
  * @author     Travis Smith <t@wpsmith.net>
- * @copyright  2015-2018 Travis Smith
+ * @copyright  2015-2019 Travis Smith
  * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
  * @link       https://github.com/wpsmith/WPS
  * @version    1.0.0
  * @since      0.1.0
  */
 
-namespace WPS\Site;
+namespace WPS\WP\Site;
 
 use StoutLogic\AcfBuilder\FieldsBuilder;
 use WPS\Core\Singleton;
@@ -27,10 +27,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'WPS\Site\ImageDefaults' ) ) {
+if ( ! class_exists( __NAMESPACE__ . '\ImageDefaults' ) ) {
 	/**
 	 * Class ImageDefaults
-	 * @package WPS\Site
+	 * @package WPS\WP
 	 */
 	class ImageDefaults extends Singleton {
 
@@ -57,7 +57,7 @@ if ( ! class_exists( 'WPS\Site\ImageDefaults' ) ) {
 		 */
 		public function options_page() {
 			$images = new FieldsBuilder( 'images', array(
-				'title' => __( 'Image Settings', WPS_TEXT_DOMAIN ),
+				'title' => __( 'Image Settings', 'wps' ),
 			) );
 
 			global $wp_post_types;
@@ -76,7 +76,7 @@ if ( ! class_exists( 'WPS\Site\ImageDefaults' ) ) {
 					continue;
 				}
 				$images->addImage( "default-image-$post_type", array(
-					'label' => __( 'Default Image for ' . $wp_post_types[ $post_type ]->label . ' (' . $post_type . ')', WPS_TEXT_DOMAIN ),
+					'label' => __( 'Default Image for ' . $wp_post_types[ $post_type ]->label . ' (' . $post_type . ')', 'wps' ),
 				) );
 			}
 			$images->setLocation( 'options_page', '==', $this->prefix . '-settings' );

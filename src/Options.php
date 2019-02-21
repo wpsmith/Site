@@ -8,16 +8,16 @@
  * Any modifications to or software including (via compiler) GPL-licensed code must also be made
  * available under the GPL along with build & install instructions.
  *
- * @package    WPS\Widgets
+ * @package    WPS\WP
  * @author     Travis Smith <t@wpsmith.net>
- * @copyright  2015-2018 Travis Smith
+ * @copyright  2015-2019 Travis Smith
  * @license    http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
  * @link       https://github.com/wpsmith/WPS
  * @version    1.0.0
  * @since      0.1.0
  */
 
-namespace WPS\Site;
+namespace WPS\WP\Site;
 
 use StoutLogic\AcfBuilder\FieldsBuilder;
 use WPS\Core\Singleton;
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'WPS\Site\Options' ) ) {
+if ( ! class_exists( __NAMESPACE__ . '\Options' ) ) {
 	class Options extends Singleton {
 		/**
 		 * Prefix.
@@ -53,8 +53,8 @@ if ( ! class_exists( 'WPS\Site\Options' ) ) {
 			if ( function_exists( 'acf_add_options_page' ) ) {
 
 				acf_add_options_page( array(
-					'page_title' => __( 'Site Settings', WPS_TEXT_DOMAIN ),
-					'menu_title' => __( 'Site Settings', WPS_TEXT_DOMAIN ),
+					'page_title' => __( 'Site Settings', 'wps' ),
+					'menu_title' => __( 'Site Settings', 'wps' ),
 					'menu_slug'  => $this->prefix . '-settings',
 					'capability' => 'edit_posts',
 					'redirect'   => false,
@@ -64,12 +64,12 @@ if ( ! class_exists( 'WPS\Site\Options' ) ) {
 			}
 
 			$company = new FieldsBuilder( 'company', array(
-				'title' => __( 'Company Settings', WPS_TEXT_DOMAIN ),
+				'title' => __( 'Company Settings', 'wps' ),
 			) );
 			$company
 				->addMessage(
-					__( 'Instructions', WPS_TEXT_DOMAIN ),
-					__( 'Add a day opening and closing hours.', WPS_TEXT_DOMAIN )
+					__( 'Instructions', 'wps' ),
+					__( 'Add a day opening and closing hours.', 'wps' )
 				)
 				->addText( 'name', array(
 					'required' => 1,
@@ -94,7 +94,7 @@ if ( ! class_exists( 'WPS\Site\Options' ) ) {
 					'founders',
 					array(
 						'layout'       => 'table',
-						'button_label' => __( 'Add Founder', WPS_TEXT_DOMAIN ),
+						'button_label' => __( 'Add Founder', 'wps' ),
 					)
 				)
 				->addText( 'founder_name' )
@@ -103,7 +103,7 @@ if ( ! class_exists( 'WPS\Site\Options' ) ) {
 					'operation_hours',
 					array(
 						'layout'       => 'table',
-						'button_label' => __( 'Add Hours of Operation', WPS_TEXT_DOMAIN ),
+						'button_label' => __( 'Add Hours of Operation', 'wps' ),
 					)
 				)
 				->addSelect( 'dayOfWeek' )
@@ -123,18 +123,18 @@ if ( ! class_exists( 'WPS\Site\Options' ) ) {
 
 
 			$locations = new FieldsBuilder( 'buisness_locations', array(
-				'title' => __( 'Locations', WPS_TEXT_DOMAIN ),
+				'title' => __( 'Locations', 'wps' ),
 			) );
 			$locations
 				->addMessage(
-					__( 'Instructions', WPS_TEXT_DOMAIN ),
-					__( 'To add various business locations.', WPS_TEXT_DOMAIN )
+					__( 'Instructions', 'wps' ),
+					__( 'To add various business locations.', 'wps' )
 				)
 				->addRepeater(
 					'locations',
 					array(
 						'layout'       => 'table',
-						'button_label' => __( 'Add a Location', WPS_TEXT_DOMAIN ),
+						'button_label' => __( 'Add a Location', 'wps' ),
 					)
 				)
 				->addText( 'name' )
@@ -143,18 +143,18 @@ if ( ! class_exists( 'WPS\Site\Options' ) ) {
 				->setLocation( 'options_page', '==', $this->prefix . '-settings' );
 
 			$social = new FieldsBuilder( 'social', array(
-				'title' => __( 'Social Settings', WPS_TEXT_DOMAIN ),
+				'title' => __( 'Social Settings', 'wps' ),
 			) );
 			$social
 				->addMessage(
-					__( 'Instructions', WPS_TEXT_DOMAIN ),
-					__( 'See <a href="http://designpieces.com/2012/12/social-media-colours-hex-and-rgb/">This reference</a> for official social media account colors.', WPS_TEXT_DOMAIN )
+					__( 'Instructions', 'wps' ),
+					__( 'See <a href="http://designpieces.com/2012/12/social-media-colours-hex-and-rgb/">This reference</a> for official social media account colors.', 'wps' )
 				)
 				->addRepeater(
 					'social_accounts',
 					array(
 						'layout'       => 'table',
-						'button_label' => __( 'Add Account', WPS_TEXT_DOMAIN ),
+						'button_label' => __( 'Add Account', 'wps' ),
 					)
 				)
 				->addText( 'account_name' )
@@ -165,7 +165,7 @@ if ( ! class_exists( 'WPS\Site\Options' ) ) {
 				->setLocation( 'options_page', '==', $this->prefix . '-settings' );
 
 			$images = new FieldsBuilder( 'images', array(
-				'title' => __( 'Image Settings', WPS_TEXT_DOMAIN ),
+				'title' => __( 'Image Settings', 'wps' ),
 			) );
 
 			global $wp_post_types;
@@ -184,7 +184,7 @@ if ( ! class_exists( 'WPS\Site\Options' ) ) {
 					continue;
 				}
 				$images->addImage( "default-image-$post_type", array(
-					'label' => __( 'Default Image for ' . $wp_post_types[ $post_type ]->label . ' (' . $post_type . ')', WPS_TEXT_DOMAIN ),
+					'label' => __( 'Default Image for ' . $wp_post_types[ $post_type ]->label . ' (' . $post_type . ')', 'wps' ),
 				) );
 			}
 			$images->setLocation( 'options_page', '==', $this->prefix . '-settings' );
@@ -462,7 +462,7 @@ if ( ! class_exists( 'WPS\Site\Options' ) ) {
 
 			switch ( $type ) {
 				case 'EducationalOrganization':
-					$types->addSelect( 'additional_type_' . strtolower( $type ), array( 'label' => __( 'Additional Type', WPS_TEXT_DOMAIN ) ) )
+					$types->addSelect( 'additional_type_' . strtolower( $type ), array( 'label' => __( 'Additional Type', 'wps' ) ) )
 					      ->addChoice( 'CollegeOrUniversity' )
 					      ->addChoice( 'ElementarySchool' )
 					      ->addChoice( 'HighSchool' )
@@ -472,7 +472,7 @@ if ( ! class_exists( 'WPS\Site\Options' ) ) {
 					      ->conditional( 'company_type', '==', $type );
 					break;
 				case 'LocalBusiness':
-					$types->addSelect( 'additional_type_' . strtolower( $type ), array( 'label' => __( 'Additional Type', WPS_TEXT_DOMAIN ) ) )
+					$types->addSelect( 'additional_type_' . strtolower( $type ), array( 'label' => __( 'Additional Type', 'wps' ) ) )
 					      ->addChoice( 'AnimalShelter' )
 					      ->addChoice( 'AutomotiveBusiness', array(
 						      'AutomotiveBusiness',
@@ -621,7 +621,7 @@ if ( ! class_exists( 'WPS\Site\Options' ) ) {
 					      ->conditional( 'company_type', '==', $type );
 					break;
 				case 'MedicalOrganization':
-					$types->addSelect( 'additional_type_' . strtolower( $type ), array( 'label' => __( 'Additional Type', WPS_TEXT_DOMAIN ) ) )
+					$types->addSelect( 'additional_type_' . strtolower( $type ), array( 'label' => __( 'Additional Type', 'wps' ) ) )
 					      ->addChoice( 'Dentist' )
 					      ->addChoice( 'Hospital' )
 					      ->addChoice( 'Pharmacy' )
@@ -629,14 +629,14 @@ if ( ! class_exists( 'WPS\Site\Options' ) ) {
 					      ->conditional( 'company_type', '==', $type );
 					break;
 				case 'PerformingGroup':
-					$types->addSelect( 'additional_type_' . strtolower( $type ), array( 'label' => __( 'Additional Type', WPS_TEXT_DOMAIN ) ) )
+					$types->addSelect( 'additional_type_' . strtolower( $type ), array( 'label' => __( 'Additional Type', 'wps' ) ) )
 					      ->addChoice( 'DanceGroup' )
 					      ->addChoice( 'MusicGroup' )
 					      ->addChoice( 'TheaterGroup' )
 					      ->conditional( 'company_type', '==', $type );
 					break;
 				case 'SportsOrganization':
-					$types->addSelect( 'additional_type_' . strtolower( $type ), array( 'label' => __( 'Additional Type', WPS_TEXT_DOMAIN ) ) )
+					$types->addSelect( 'additional_type_' . strtolower( $type ), array( 'label' => __( 'Additional Type', 'wps' ) ) )
 					      ->addChoice( 'SportsTeam' )
 					      ->conditional( 'company_type', '==', $type );
 					break;
